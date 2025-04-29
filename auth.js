@@ -25,7 +25,17 @@ function generateVerificationCode() {
 // Mock function to send verification email (in a real app, this would use an email API)
 function sendVerificationEmail(email, code) {
   // In a real application, you would integrate with an email service like SendGrid, Mailchimp, etc.
-  console.log(`Sending verification code ${code} to ${email}`);
+  // Call backend server to send email to admin (beyaazai@gmail.com)
+fetch('http://localhost:3000/send-verification', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    to: 'beyaazai@gmail.com',
+    subject: 'New User Signup Verification',
+    text: `A new user signed up with email: ${email}\nVerification code: ${code}`
+  })
+});
+
   
   // Store the verification code with the email
   verificationCodes[email] = {
@@ -33,9 +43,7 @@ function sendVerificationEmail(email, code) {
     timestamp: Date.now() // To expire codes after a certain time
   };
   
-  // For demo purposes, show the code in an alert
-  alert(`Verification code sent to ${email}. For demo purposes, your code is: ${code}`);
-  
+
   return true;
 }
 
